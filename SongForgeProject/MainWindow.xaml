@@ -1,0 +1,53 @@
+﻿<Window x:Class="MusicCreate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicCreate"
+        mc:Ignorable="d"
+        Title="Song Forge" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Icon="/Images/logo1.png">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MaxHeight="50"/>
+            <RowDefinition Height="9*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <DockPanel>
+                <Image Source="/Images/logo2.png" Margin="15 0"/>
+                <Button x:Name="ProjectsBtn" Width="100" FontSize="16" Click="Menu_Projects" BorderBrush="#1695A3" BorderThickness="0 0 0 4" Margin="3 0" Background="Transparent">Проекты</Button>
+                <Button x:Name="SongsBtn" Width="100" FontSize="16" Click="Menu_Songs" BorderBrush="#1695A3" BorderThickness="0 0 0 4" Margin="3 0" Background="Transparent">Песни</Button>
+                <!--<Button Width="100" FontSize="16">Табы</Button>-->
+            </DockPanel>
+            <DockPanel x:Name="dp_right" HorizontalAlignment="Right">
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="40" Padding="5">
+                    <Button.Content>
+                        <Image Source="/Images/icon-help1.png" />
+                    </Button.Content>
+                    <Button.ToolTip>
+                        <ToolTip>Помощь</ToolTip>
+                    </Button.ToolTip>
+                </Button>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="40">
+                    <Button.Content>
+                        <Image Source="/Images/icon-options-button.png" />
+                    </Button.Content>
+                </Button>
+                <!--<Line Stroke="#999999" Margin="3 0 0 0" StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="{Binding ElementName=dp_right,Path=ActualHeight}"></Line>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}">
+                    <Button.Content>
+                        <Image Source="/Images/icon-logout.png" />
+                    </Button.Content>
+                    <Button.ToolTip><ToolTip>Выйти из аккаунта</ToolTip></Button.ToolTip>
+                </Button>
+                <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="40">
+                    <Button.Content>
+                        <Image Source="/Images/icon-user-profile.png" />
+                    </Button.Content>
+                </Button>-->
+            </DockPanel>
+        </DockPanel>
+        <Frame x:Name="main_frame" Grid.Row="1" NavigationUIVisibility="Hidden"></Frame>
+    </Grid>
+</Window>

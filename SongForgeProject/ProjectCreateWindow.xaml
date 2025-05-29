@@ -1,0 +1,321 @@
+﻿<Window x:Class="MusicCreate.ProjectCreateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MusicCreate"
+        mc:Ignorable="d"
+        Title="Song Forge" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Icon="/Images/logo1.png">
+    <Window.Resources>
+        <Style TargetType="Slider" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <!-- Фон полоски -->
+                            <Rectangle x:Name="PART_TrackBackground" Width="2" Fill="#5B5B5B"
+                               HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+
+                            <Track x:Name="PART_Track">
+                                <Track.Thumb>
+                                    <Thumb Width="15" Height="20" Background="#D9D9D9"/>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Width="0" Height="0"/>
+                                </Track.IncreaseRepeatButton>
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Width="0" Height="0"/>
+                                </Track.DecreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="15"></Setter>
+            <Setter Property="Minimum" Value="0"></Setter>
+            <Setter Property="Maximum" Value="1"></Setter>
+            <Setter Property="Orientation" Value="Vertical"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <DockPanel x:Name="dp_top" Grid.Row="0">
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Click="BackBtn_Click">
+                <Button.Content>
+                    <Image Source="/Images/icon-back-button.png" />
+                </Button.Content>
+            </Button>
+            <Line Stroke="#999999" Margin="3 0 8 0" StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="{Binding ElementName=dp_top,Path=ActualHeight}"></Line>
+            <Button x:Name="save_btn" Click="SaveButton_Click" Background="{x:Null}" BorderBrush="{x:Null}" Width="25" Opacity="0.5">
+                <Button.Content>
+                    <Image Source="/Images/icon-save.png" />
+                </Button.Content>
+            </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="30">
+                <Button.Content>
+                    <Image Source="/Images/icon-cancel-button.png" />
+                </Button.Content>
+            </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="30">
+                <Button.Content>
+                    <Image Source="/Images/icon-return-button.png" />
+                </Button.Content>
+            </Button>
+            <Line Stroke="#999999" Margin="5 0 3 0" StrokeThickness="1" X1="0" X2="0" Y1="0" Y2="{Binding ElementName=dp_top,Path=ActualHeight}"></Line>
+            <Button Click="SettingsButton_Click" Background="{x:Null}" BorderBrush="{x:Null}" Width="40">
+                <Button.Content>
+                    <Image Source="/Images/icon-options-button.png" />
+                </Button.Content>
+            </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="40" Padding="5">
+                <Button.Content>
+                    <Image Source="/Images/icon-help1.png" />
+                </Button.Content>
+                <Button.ToolTip>
+                    <ToolTip>Помощь</ToolTip>
+                </Button.ToolTip>
+            </Button>
+            <Button Background="{x:Null}" BorderBrush="{x:Null}" Width="35" Click="BtnMenu_Click">
+                <Button.Content>
+                    <Image Source="/Images/icon-menu.png" />
+                </Button.Content>
+            </Button>
+            <Button Content="Render Mix" Click="RenderButton_Click" Width="80" Height="30" Margin="5"/>
+            <Button Content="Mixer" Click="ShowMixerPanelMenuBtn_Click" Width="50" Height="30" Margin="5"/>
+            <Button Content="Импорт аудио" Click="ImportButton_Click" Width="100" Height="30" Margin="5"/>
+            <DockPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                <TextBlock FontSize="18" Text="{Binding Name}"></TextBlock>
+                <TextBlock Margin="10,0,0,0" FontSize="16" Text="{Binding Duration, StringFormat={}Длительность: {0:hh\\:mm\\:ss\\:fff}}"></TextBlock>
+                <TextBlock x:Name="TB1" Margin="10,0,0,0"/>
+            </DockPanel>
+        </DockPanel>
+
+        <ScrollViewer x:Name="scrollViewer" Focusable="True" PreviewMouseWheel="OnPreviewMouseWheel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Row="1" Background="#BBC6C8" CanContentScroll="True">
+            <Grid x:Name="grid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Background="#E5E3E4" Width="200" HorizontalAlignment="Left" Margin="0 0 0 0"></Grid>
+                <Grid Grid.ColumnSpan="2">
+                    <Canvas x:Name="playheadCanvas" Panel.ZIndex="1">
+                        <Line x:Name="playhead" Stroke="#4e6180" StrokeThickness="2" X1="0" X2="0" Y1="0" Y2="{Binding ElementName=grid, Path=ActualHeight}" Canvas.Left="200"/>
+                        <Polygon x:Name="playheadPolygon" Fill="#4e6180" Points="-10, 0, 10, 0, 0, 10" HorizontalAlignment="Left" Canvas.Left="200" />
+                    </Canvas>
+                    <DockPanel x:Name="Beats_DockPanel" Margin="170 0 0 0" Panel.ZIndex="1"></DockPanel>
+                    <StackPanel Margin="0 20 0 0">
+                        <ListBox x:Name="ListBox1" Padding="0" Background="{x:Null}" ItemsSource="{Binding items}" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" HorizontalContentAlignment="Stretch">
+                            <!-- Включаем виртуализацию -->
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel IsVirtualizing="True" VirtualizationMode="Recycling"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                        <Button Width="60" Padding="-10" Background="{x:Null}" BorderThickness="0" Click="NewButton_Click" HorizontalAlignment="Left" ToolTip="Добавить трек">
+                            <Button.Content>
+                                <Image Source="/Images/icon-add.png"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- Панель кнопок -->
+        <Grid Grid.Row="2">
+            <Border x:Name="mixerTabButton" Margin="0 -30 0 0" Width="120" Height="30" Background="LightGray" CornerRadius="0,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible">
+                <Button x:Name="showMixerPanelBtn" Click="ShowMixerPanelBtn_Click" HorizontalContentAlignment="Left" Background="Transparent" BorderBrush="{x:Null}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,30,0,0">
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <!-- Меняем фон при наведении, сохраняя закруглённые углы -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="#E0E0E0"/>
+                                                <!-- Светло-серый фон при наведении -->
+                                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{x:Null}"/>
+                                            </Trigger>
+                                            <!-- Меняем фон при нажатии -->
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="#D0D0D0"/>
+                                                <!-- Более тёмный серый при нажатии -->
+                                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="{x:Null}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Content>
+                        <DockPanel Margin="5 1">
+                            <Image Source="/Images/icon-mixer.png"/>
+                            <TextBlock Margin="7 0 0 0" FontSize="16">Микшер</TextBlock>
+                        </DockPanel>
+                    </Button.Content>
+                </Button>
+            </Border>
+
+            <!-- Панель микшера -->
+            <Border x:Name="mixerPanel" Height="300" Background="LightGray" VerticalAlignment="Top" Visibility="Collapsed">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Margin="10,5,0,5" Width="80" Height="20" HorizontalAlignment="Left">
+                        <Image Source="/Images/icon-mixer.png"/>
+                        <TextBlock Margin="5 0 0 0" FontSize="14">Микшер</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,10,5">
+                        <Button x:Name="minimizeMixerBtn" Content="―" Width="20" Height="20" Margin="0,0,5,0" Click="MinimizeMixerBtn_Click" BorderBrush="{x:Null}" Background="Transparent"/>
+                        <Button x:Name="closeMixerBtn" Content="╳" Width="20" Height="20" Click="CloseMixerBtn_Click" BorderBrush="{x:Null}" Background="Transparent"/>
+                    </StackPanel>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<Image HorizontalAlignment="Left" Source="/Images/Temporary-mixer.png" Grid.ColumnSpan="2"/>-->
+                        
+                        <!-- Мастер -->
+                        <Grid x:Name="MasterGrid" Background="#959595" Margin="40 10 20 10" Grid.Column="0">
+                            <Grid Margin="5 5 5 23">
+                                <Slider x:Name="VolumeMixerSliderMaster" Height="222" VerticalAlignment="Bottom" Value="0.5"></Slider>
+                                <Canvas x:Name="spectrumCanvas" Width="100" Height="222" Background="#454545" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                            </Grid>
+                            <TextBlock Text="Мастер" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 5"/>
+                        </Grid>
+
+                        
+                        <StackPanel Orientation="Horizontal" Grid.Column="1">
+                            <!-- Остальные треки (должны появляться в коде C#) -->
+                            <Grid Background="#959595" Margin="10" Width="96">
+                                <Grid Margin="5 5 5 38">
+                                    <Slider x:Name="VolumeMixerSlider" Height="207" VerticalAlignment="Bottom" Value="1"></Slider>
+                                    <StackPanel Margin="15 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                        <Button Width="25" Background="{x:Null}" BorderBrush="{x:Null}" Padding="-2">
+                                            <Button.Content>
+                                                <Image Source="/Images/icon-unmute.png"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Width="25" Background="{x:Null}" BorderBrush="{x:Null}">
+                                            <Button.Content>
+                                                <Image Source="/Images/icon-dustbin.png"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <Canvas x:Name="spectrumCanvas1" Width="43" Height="207" Background="#454545" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                </Grid>
+                                <TextBlock Text="Recording" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 20"/>
+                                <TextBox Text="Track1" FontSize="12" VerticalAlignment="Bottom" Margin="1" HorizontalContentAlignment="Center"/>
+                            </Grid>
+                        </StackPanel>
+                        
+                        <!--<Image x:Name="waveformImage" Width="1000" Height="150" Grid.ColumnSpan="2"/>-->
+                    </Grid>
+                </Grid>
+            </Border>
+
+
+            <DockPanel Height="40" VerticalAlignment="Bottom" Background="White">
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="skip_left_btn" Click="skip_left_btn_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-skip-left.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            В начало
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="skip_right_btn" Click="skip_right_btn_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-skip-right.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            В конец
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="button1" Click="button1_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-record.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Начать запись
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="button2" Click="button2_Click" Background="{x:Null}" BorderBrush="{x:Null}" Visibility="Collapsed">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/stop_and_on_start_icon.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Остановить запись
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="play_btn" Click="play_btn_Click" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-play.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Воспроизвести
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="pause_btn" Click="pause_btn_Click" Opacity="0.5" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-pause.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Пауза
+                        </Button.ToolTip>
+                    </Button>
+                    <Button x:Name="refresh_btn" Click="refresh_btn_Click" Opacity="0.5" Background="{x:Null}" BorderBrush="{x:Null}">
+                        <Button.Content>
+                            <Image Source="/Images/rec_buttons/icon-refresh-button.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Зациклить
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+                
+                
+
+                <DockPanel VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10">
+                    <TextBlock Text="Темп: " FontSize="14"/>
+                    <TextBox x:Name="TempoTextBox" Text="{Binding Bpm}" FontSize="14" TextChanged="TempoTextBox_TextChanged" KeyDown="TextBox_KeyDown"/>
+                    <TextBlock Text=" bpm" FontSize="14"/>
+                    <Button x:Name="metronome_btn" Opacity="0.5" Click="MetronomeBtn_Click" Background="{x:Null}" BorderBrush="{x:Null}" Margin="10 0 0 0" Width="20" Padding="-2">
+                        <Button.Content>
+                            <Image Source="/Images/icon-metronome.png" />
+                        </Button.Content>
+                        <Button.ToolTip>
+                            Включить/выключить метроном
+                        </Button.ToolTip>
+                    </Button>
+                </DockPanel>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</Window>

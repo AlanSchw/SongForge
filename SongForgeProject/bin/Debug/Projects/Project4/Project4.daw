@@ -1,0 +1,5 @@
+00:00:06:101,110,100
+Track1,Recording,00:00:06:068,unmute,41,track1-1.wav;track1-2.wav
+Track2,Recording,00:00:04:418,unmute,100,track2-1.wav;track2-2.wav
+Track3,Recording,00:00:02:219,mute,100,track3-1.wav
+Track4,Recording,00:00:06:101,mute,100,track4-1.wav

@@ -1,0 +1,429 @@
+﻿<Page x:Class="MusicCreate.Pages.ProjectsListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MusicCreate.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Список проектов"
+      Background="#D4E8F5">
+    <!--<Page.Resources>
+        --><!-- Правильно указываем ресурс как x:Static --><!--
+        <x:Static x:Key="AlternationIndexToBackgroundConverter" Member="local:AlternationIndexToBackgroundConverter+Converter.Instance"/>
+    </Page.Resources>-->
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- Боковое меню -->
+        <Grid Grid.Column="0" Background="#BDE5FE">
+            <StackPanel>
+                <!-- Иконка -->
+                <Image Source="/Images/icon-songs.png" Width="70" Height="70" Margin="20"/>
+
+                <StackPanel Margin="30 0">
+                    <!-- Поиск -->
+                    <Border x:Name="Search_border" CornerRadius="10" Margin="0,0,0,20" Background="White" BorderBrush="Transparent" BorderThickness="1" Padding="10 0">
+                        <DockPanel Height="30">
+                            <Image x:Name="Search_image" Source="/Images/icon-search.png" Height="20" Margin="2.5 0 0 0"/>
+                            <TextBox x:Name="SearchTextBox" KeyDown="TextBox_KeyDown" BorderThickness="0" VerticalAlignment="Center" Text="Поиск" Foreground="Gray" FontSize="14" Margin="5 0" Padding="0" BorderBrush="{x:Null}" Background="{x:Null}" GotFocus="SearchTextBox_GotFocus" LostFocus="SearchTextBox_LostFocus" TextChanged="SearchTextBox_TextChanged"></TextBox>
+                        </DockPanel>
+                    </Border>
+
+                    <!-- Кнопки меню -->
+                    <Border x:Name="AllButtonBorder" CornerRadius="10" Margin="0,0,0,20" Background="#6ECCD7" BorderBrush="#004842" BorderThickness="0">
+                        <Button x:Name="AllButton" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Height="30" Click="AllProjectsButtonClick">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="10 0">
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Меняем фон при наведении, сохраняя закруглённые углы -->
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                    <!-- Меняем фон при нажатии -->
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <DockPanel>
+                                <Image Source="/Images/icon-home.png" Height="25"/>
+                                <TextBlock Text="Все проекты" VerticalAlignment="Center" Width="150" FontSize="14" Padding="5 0" Background="{x:Null}"/>
+                            </DockPanel>
+                        </Button>
+                    </Border>
+                    <Border x:Name="FavoriteButtonBorder" CornerRadius="10" Margin="0,0,0,20" Background="#76DDE8">
+                        <Button x:Name="FavoriteButton" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Height="30" Click="FavoriteProjectsButtonClick">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="10 0">
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Меняем фон при наведении, сохраняя закруглённые углы -->
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                    <!-- Меняем фон при нажатии -->
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <DockPanel>
+                                <Image Source="/Images/icon-like.png" Height="29" Margin="-2 -2 -2 -2"/>
+                                <TextBlock Text="Избранное" VerticalAlignment="Center" Width="150" FontSize="14" Padding="5 0" Background="{x:Null}"/>
+                            </DockPanel>
+                        </Button>
+                    </Border>
+                    <!--<Border CornerRadius="10" Margin="0,0,0,20" Background="#76DDE8">
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Height="30">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="10 0">
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    --><!-- Меняем фон при наведении, сохраняя закруглённые углы --><!--
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                    --><!-- Меняем фон при нажатии --><!--
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <DockPanel>
+                                <Image Source="/Images/icon-playlist.png" Height="29" Margin="-2 -2 -2 -2"/>
+                                <TextBlock Text="Новая группа" VerticalAlignment="Center" Width="150" FontSize="14" Padding="5 0" Background="{x:Null}"/>
+                            </DockPanel>
+                        </Button>
+                    </Border>-->
+                </StackPanel>
+            </StackPanel>
+            <!-- Кнопка для открытия папки -->
+            <Border CornerRadius="10" Background="#1695A3" Margin="30" VerticalAlignment="Bottom">
+                <Button Content="Расположение файлов" VerticalAlignment="Center" FontSize="14" Height="30" Click="OpenFolderButton_Click" Background="{x:Null}" Foreground="White" BorderBrush="{x:Null}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="{x:Null}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="10 0">
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <!-- Меняем фон при наведении, сохраняя закруглённые углы -->
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="#07626A"/>
+                                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#004842"/>
+                                            </Trigger>
+                                            <!-- Меняем фон при нажатии -->
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="ButtonBorder" Property="Background" Value="#07626A"/>
+                                                <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#07626A"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Border>
+        </Grid>
+
+        <!-- Список проектов -->
+        <Grid Grid.Column="1" Margin="40 20 40 40">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <DockPanel VerticalAlignment="Top">
+                <TextBlock x:Name="TitleTextBlock" Text="Список проектов" FontSize="28"/>
+                <DockPanel HorizontalAlignment="Right">
+
+                    <ComboBox x:Name="cb_sort" ItemsSource="{Binding SortingOptions}" SelectedIndex="0" Margin="0 0 20 0" 
+                        Height="37" Width="370" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Padding="0" SelectionChanged="cb_sort_SelectionChanged">
+                        <!-- Шаблон для элементов ComboBox -->
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Image Source="{Binding ImagePath}" Height="30" Margin="5 0 0 0"/>
+                                    <TextBlock Text="{Binding Text}" FontSize="17" VerticalAlignment="Center" Margin="10 0 0 0"/>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                        <!-- Кастомный стиль для ComboBox -->
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <!-- Устанавливаем прозрачный фон -->
+                                <Setter Property="Background" Value="Transparent"/>
+                                <!-- Устанавливаем нижнюю границу -->
+                                <Setter Property="BorderBrush" Value="#1695A3"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,4"/>
+                                <!-- Устанавливаем отступы -->
+                                <Setter Property="Padding" Value="5"/>
+                                <!-- Переопределяем шаблон -->
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBox">
+                                            <Grid>
+                                                <!-- Основной контейнер -->
+                                                <Border x:Name="MainBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    SnapsToDevicePixels="True">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <!-- Отображаем выбранный элемент -->
+                                                        <ContentPresenter Grid.Column="0"
+                                                      x:Name="ContentPresenter"
+                                                      Content="{TemplateBinding SelectedItem}"
+                                                      ContentTemplate="{TemplateBinding ItemTemplate}"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left"
+                                                      Margin="{TemplateBinding Padding}"
+                                                      TextElement.Foreground="Black"/>
+
+                                                        <!-- Стрелка для выпадающего списка -->
+                                                        <Path Grid.Column="1"
+                                          x:Name="Arrow"
+                                          Data="M 0 0 L 4 4 L 8 0 Z"
+                                          Fill="Black"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Center"
+                                          Margin="5"/>
+
+                                                        <!-- Прозрачная кнопка для открытия/закрытия списка -->
+                                                        <Button x:Name="DropDownButton"
+                                            Grid.ColumnSpan="2"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Click="DropDownButton_Click">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="Button">
+                                                                                <Border Background="{TemplateBinding Background}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                                </Border>
+                                                                                <!-- Отключаем визуальные изменения при наведении -->
+                                                                                <ControlTemplate.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                                        <!-- Оставляем Background и Border неизменными -->
+                                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                                                    </Trigger>
+                                                                                    <Trigger Property="IsPressed" Value="True">
+                                                                                        <!-- Отключаем эффект нажатия -->
+                                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                                                    </Trigger>
+                                                                                </ControlTemplate.Triggers>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </Button.Style>
+                                                        </Button>
+                                                    </Grid>
+                                                </Border>
+
+                                                <!-- Выпадающий список -->
+                                                <Popup x:Name="PART_Popup"
+                                   IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Placement="Bottom"
+                                   AllowsTransparency="True"
+                                   Focusable="False"
+                                   PopupAnimation="Slide">
+                                                    <Border x:Name="DropDownBorder"
+                                        Background="White"
+                                        BorderBrush="#1695A3"
+                                        BorderThickness="1"
+                                        MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                                        <ScrollViewer>
+                                                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+
+                                            <!-- Триггеры -->
+                                            <ControlTemplate.Triggers>
+                                                <!-- При наведении -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="MainBorder" Property="BorderBrush" Value="#1ABDCB"/>
+                                                    <Setter TargetName="Arrow" Property="Fill" Value="#1695A3"/>
+                                                </Trigger>
+                                                <!-- При открытии выпадающего списка -->
+                                                <Trigger Property="IsDropDownOpen" Value="True">
+                                                    <Setter TargetName="Arrow" Property="Fill" Value="#1695A3"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.Style>
+                    </ComboBox>
+
+
+                    <Border CornerRadius="10" Background="#76DEE8">
+                        <Button Background="{x:Null}" BorderBrush="{x:Null}" HorizontalContentAlignment="Left" Click="AddProjectButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="10" Padding="10 0">
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <!-- Меняем фон при наведении, сохраняя закруглённые углы -->
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                    <!-- Меняем фон при нажатии -->
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="ButtonBorder" Property="Background" Value="#6ECCD7"/>
+                                                        <Setter TargetName="ButtonBorder" Property="BorderBrush" Value="#6ECCD7"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                            <DockPanel>
+                                <Image Source="/Images/icon-add.png" Height="29" Margin="-2 -2 -2 -2"/>
+                                <TextBlock Text="Создать" VerticalAlignment="Center" FontSize="14" Padding="5 0" Background="{x:Null}"/>
+                            </DockPanel>
+                        </Button>
+                    </Border>
+                </DockPanel>
+            </DockPanel>
+
+            <ListView Name="listView_projects" Margin="0 32 0 0" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="listView_projects_SelectionChanged">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Center"></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Background="White" Height="90" Width="1200" Margin="-4 0 -4 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="ProjectNameTextBlock" Grid.Column="0" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="22">
+                                <Run x:Name="HighlightedText" Text="{Binding Name}" />
+                            </TextBlock>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="18" Text="{Binding Duration, StringFormat=Длительность: {0:hh\\:mm\\:ss\\:fff}}"></TextBlock>
+                            <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="30,0,0,0" FontSize="18" Text="{Binding Bpm, StringFormat=Темп: {0} bpm.}"></TextBlock>
+                            <StackPanel Grid.Column="3" Margin="30,0,0,0" VerticalAlignment="Center">
+                                <TextBlock FontSize="16" Text="{Binding Date_time_create, StringFormat=Создан:    HH:mm:ss dd.MM.yyyy}"></TextBlock>
+                                <TextBlock FontSize="16" Text="{Binding Date_time_change, StringFormat=Изменен: HH:mm:ss dd.MM.yyyy}"></TextBlock>
+                            </StackPanel>
+                            <DockPanel Grid.Column="4" Margin="30,0,30,0">
+                                <Button Width="30" Height="30" Margin="0,0,5,0" Click="LikeButton_Click" Tag="{Binding}" Background="Transparent" BorderBrush="{x:Null}">
+                                    <Button.Content>
+                                        <Image Margin="-1">
+                                            <Image.Style>
+                                                <Style TargetType="Image">
+                                                    <Setter Property="Source" Value="/Images/icon-like.png"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                                            <Setter Property="Source" Value="/Images/icon-like-black.png"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </Button.Content>
+                                </Button>
+                                <Button Width="30" Height="30" Click="DeleteButton_Click" Tag="{Binding}" Background="Transparent" BorderBrush="{x:Null}">
+                                    <Button.Content>
+                                        <Image Source="/Images/icon-dustbin.png" Margin="1"/>
+                                    </Button.Content>
+                                </Button>
+                                <Button Click="MoreButton_Click" Width="30" Height="30" Tag="{Binding}" Background="Transparent" BorderBrush="{x:Null}">
+                                    <Button.Content>
+                                        <Image Source="/Images/icon-three-dots.png" Margin="-10 0"/>
+                                    </Button.Content>
+                                    <Button.ContextMenu>
+                                        <ContextMenu>
+                                            <!--<MenuItem Header="Добавить в папку ..." Click="AddToFolder_Click"/>-->
+                                            <MenuItem Header="Переименовать" Click="RenameProject_Click"/>
+                                        </ContextMenu>
+                                    </Button.ContextMenu>
+                                </Button>
+                            </DockPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Page>
